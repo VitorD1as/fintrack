@@ -13,10 +13,10 @@ import io.vitor.fintrack.database.repository.TransactionRepository;
 import io.vitor.fintrack.enums.TransactionType;
 import io.vitor.fintrack.exception.BadRequestException;
 import io.vitor.fintrack.exception.NotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -61,8 +61,7 @@ public class TransactionService {
         transactionRepository.save(transaction);
     }
 
-
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Transaction> getTodayTransactions(){
         User authUser = userAuth();
 
@@ -72,7 +71,7 @@ public class TransactionService {
         return transactionRepository.findByUserAndDateBetween(authUser, start, end);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public DashboardMetricsDTO getMonthMetrics(YearMonth yearMonth){
         User auth = userAuth();
 
