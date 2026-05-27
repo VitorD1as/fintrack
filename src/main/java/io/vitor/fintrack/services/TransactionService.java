@@ -11,6 +11,8 @@ import io.vitor.fintrack.database.repository.AccountRepository;
 import io.vitor.fintrack.database.repository.CategoryRepository;
 import io.vitor.fintrack.database.repository.TransactionRepository;
 import io.vitor.fintrack.enums.TransactionType;
+import io.vitor.fintrack.exception.BadRequestException;
+import io.vitor.fintrack.exception.NotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,18 +35,18 @@ public class TransactionService {
     private final TransactionMapper mapper;
 
     @Transactional
-    public void createTransaction(TransactionRequestDTO dto){
+    public void createTransaction(TransactionRequestDTO dto) throws NotFoundException, BadRequestException {
         User authUser = userAuth();
 
         Account account = accountRepository.findById(dto.accountId())
-                .orElseThrow(() -> new RuntimeException("Conta não encontrada!"));
+                .orElseThrow(() -> new NotFoundException("Conta não encontrada!"));
 
         if(!account.getUser().getId().equals(authUser.getId())){
-            throw new RuntimeException("Acesso negado: essa conta não te pertence!");
+            throw new BadRequestException("Acesso negado: essa conta não te pertence!");
         }
 
         Category category = categoryRepository.findById(dto.categoryId())
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrada!"));
+                .orElseThrow(() -> new BadRequestException("Categoria não encontrada!"));
 
         BigDecimal currentBalance = account.getCurrentBalance();
 

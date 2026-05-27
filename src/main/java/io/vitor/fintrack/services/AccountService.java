@@ -7,6 +7,7 @@ import io.vitor.fintrack.database.models.dtos.AccountRequestDTO;
 import io.vitor.fintrack.database.models.dtos.AccountResponseDTO;
 import io.vitor.fintrack.database.repository.AccountRepository;
 import io.vitor.fintrack.database.repository.UserRepository;
+import io.vitor.fintrack.exception.NotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -24,12 +25,12 @@ public class AccountService {
     private final AccountMapper mapper;
 
     @Transactional
-    public AccountResponseDTO createAccount(AccountRequestDTO accountDTO){
+    public AccountResponseDTO createAccount(AccountRequestDTO accountDTO) throws NotFoundException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
         User user = userRepository.findByEmail(email).orElseThrow(
-                () -> new RuntimeException("Usuário não encontrado!")
+                () -> new NotFoundException("Usuário não encontrado!")
         );
 
         Account account = mapper.toEntity(accountDTO);

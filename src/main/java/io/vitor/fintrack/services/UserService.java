@@ -4,6 +4,7 @@ import io.vitor.fintrack.database.mappers.UserMapper;
 import io.vitor.fintrack.database.models.User;
 import io.vitor.fintrack.database.models.dtos.UserDTO;
 import io.vitor.fintrack.database.repository.UserRepository;
+import io.vitor.fintrack.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,10 +17,10 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
-    public UserDTO registerUser(UserDTO dto){
+    public UserDTO registerUser(UserDTO dto) throws BadRequestException {
 
         if(userRepository.existsByEmail(dto.email())){
-            throw new RuntimeException("Email já cadastrado!");
+            throw new BadRequestException("Email já cadastrado!");
         }
 
         User user = userMapper.toEntity(dto);
