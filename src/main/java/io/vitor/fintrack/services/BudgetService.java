@@ -22,7 +22,6 @@ import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.YearMonth;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -56,7 +55,6 @@ public class BudgetService {
         User authUser = userAuth();
 
         List<Budget> budgets = budgetRepository.findByUserAndTargetMonth(authUser, yearMonth);
-        List<BudgetResponseDTO> report = new ArrayList<>();
 
         LocalDateTime startOfMonth = yearMonth.atDay(1).atStartOfDay();
         LocalDateTime endOfMonth = yearMonth.atEndOfMonth().atTime(LocalTime.MAX);

@@ -3,8 +3,7 @@ package io.vitor.fintrack.database.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -19,6 +18,9 @@ import java.util.List;
 @Entity
 @Table(name = "TB_USER")
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails {
