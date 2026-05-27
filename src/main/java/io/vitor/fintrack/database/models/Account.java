@@ -6,8 +6,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "TB_ACCOUNT")
@@ -23,9 +25,13 @@ public class Account {
     @NotBlank
     private String nameAccount;
 
-    @Column(name = "saldo_atual", nullable = false, precision = 18, scale = 2)
+    @Column(name = "current_balance", nullable = false, precision = 18, scale = 2)
     @NotNull
-    private BigDecimal saldoAtual;
+    private BigDecimal currentBalance;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)

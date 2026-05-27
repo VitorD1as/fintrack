@@ -1,17 +1,25 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: fintrack
+
   datasource:
     url: jdbc:postgresql://localhost:5432/fintrack
     username: postgres
     password: 123456
     driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+
     properties:
       hibernate:
         format_sql: true
 
-kind: Application
+  jwt:
+    expiration: 900000
+    key: "${JWT_KEY:K5LuMxsARBNZ39iH5Kkw1cMAL=63-yCLsrR51p8IP-RlNPW-UQGUrRoLmA5ImJlYUcTLca$Ci5Uod9d9!uoaK9tokyGXx&#YElzVp&C1AyEsf=juChwT5KQ9VLALJdPQ7_DsSLXoLWew$Z403CNS=ctj53F2YA2VzU!v1#SV38JpG&w_5Tz-d8hL7df0GNBfp8Pes-_P_XnSj6bbPY0UWO7M-lJPfHhGn9tdera9G=C#2P6YiVdI3xI!$K2bC0POS6rw&f-Ep79zGdozOntMvzwnQrBNLpy8akqQTX6LMgJ7TxxX1cnUMBesFomJEQJ#_Ckwr-zf344dGz-0_LegDXXc}"
